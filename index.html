@@ -171,9 +171,9 @@
                         <h1 id="learn-bevy-book"><a class="header" href="#learn-bevy-book">Learn Bevy Book</a></h1>
 <h2 id="introduction-to-this-book"><a class="header" href="#introduction-to-this-book">Introduction to this book</a></h2>
 <ul>
-<li>Bevy is a game engine that provides first-class low-level mechanisms for game developing</li>
-<li>Instead of feature-full, Bevy is more like &quot;mechanism-full&quot;</li>
-<li>We may use these mechanisms to create our own features, strategies, fancy ideas, and eventually, <em>games</em></li>
+<li>Bevy is a game engine that provides first-class low-level mechanisms for game developing.</li>
+<li>Instead of feature-full, Bevy is more like &quot;mechanism-full&quot;.</li>
+<li>We may use these mechanisms to create our own features, strategies, fancy ideas, and eventually, <em>games</em>.</li>
 <li>Building games from low-level mechanisms is overwhelming at first. We want to alleviate this initial pain.</li>
 <li>This guide takes a top-down approach to give you a creator's guidance to learning Bevy.</li>
 <li>Some questions I will try to answer:
@@ -190,20 +190,35 @@
 <p>Bevy is a refreshingly simple data-driven game engine built in Rust.</p>
 </blockquote>
 <ul>
-<li>Compared with other game engines, Bevy is representing and tracking the internal data more elegantly
+<li>Compared with other game engines, Bevy is representing and tracking the internal data more elegantly:
 <ul>
-<li>it helps you materialize the imaginary game world as concrete data</li>
-<li>it organizes data as Entity-Component-System (ECS), a time-tested paradigm seen in many other engines</li>
+<li>It helps you materialize the imaginary game world as concrete data.</li>
+<li>It organizes data as Entity-Component-System (ECS), a time-tested paradigm seen in many other engines...</li>
 <li>...yet it leverages advanced Rust features to make it refreshingly simple for us to use</li>
 </ul>
 </li>
 <li>How is my experience working with Bevy?
 <ul>
-<li>Accurate: I fully control the code, the code fully controls the game world</li>
-<li>Confident: less unexpected behaviors or mysterious bugs, thanks to Rust and Bevy's clear architecture</li>
-<li>Creative: put things together creatively, or craft your own features, all as I want</li>
-<li>Agile: I can build, publish and iterate your game real quick</li>
+<li>Accurate: I fully control the code, the code fully controls the game world.</li>
+<li>Confident: less unexpected behaviors or mysterious bugs, thanks to Rust and Bevy's clear architecture.</li>
+<li>Creative: I can put things together creatively, or craft my own features, all as I want.</li>
+<li>Agile: I can build, publish and iterate a game real quick.</li>
 </ul>
+</li>
+</ul>
+<h2 id="how-to-use-this-book"><a class="header" href="#how-to-use-this-book">How to use this book</a></h2>
+<ul>
+<li>This book begins with a tutorial that illustrates the creation process of a simple game.</li>
+<li>It also serves as a quick glance of the most important features that a game engine provides.
+<ul>
+<li>You will understand when you want something in your game, which parts should you investigate deeper.</li>
+<li>Then you can refer to later chapters in any order that matches the journey of your own game creation.</li>
+</ul>
+</li>
+<li>This book use <em>lists</em> intensively. This is for faster iteration of this book itself. It gives outlines and high-level understandings, but not extremely detailed explanations.</li>
+<li>The code of this book is open-sourced at <a href="https://github.com/ddyy-game/learn-bevy-game">this GitHub repo</a>. When you see tags such as <strong><code>ch01/step-1</code></strong> in this book, it refers to the corresponding git tag in the repo. Run this command to check out the code:
+<pre><code class="language-bash">git checkout ch01/step-1
+</code></pre>
 </li>
 </ul>
 
