@@ -10,7 +10,7 @@
 
 - Let's move our camera to a more comfortable position.
 
-  - In game engines, we often use the term _transform_ to represent the position, orientation (or rotation), and scale (or size) of an object.
+  - In game engines, we often use the term _transform_ to represent the position, rotation (or orientation), and scale (or size) of an object.
   - If we want to move our camera to a different position and orientation, we need to define the `Transform` component on creating the `Camera3DBundle`:
     ```rs
     commands.spawn(Camera3dBundle {
@@ -29,9 +29,17 @@
     - The first argument `target`, is the position that you want your camera to point at (hence you may not want to set it to the same position with the camera itself).
     - The second argument `up`, is used to define the up direction of the camera. Most of the time we want a horizontal view of the world, so we set the up direction to `Vec3::Y`, i.e. the _up_ direction of the same coordinate system.
     - You may notice that the `up` direction isn't perfectly orthogonal with the target direction. This is allowed, as Bevy will calculate the internal representation of the rotation (a quaternion or `Quat` representing an orientation) based on the plane formed by the two vectors.
+  - As a practice, we describe this scene in terms of coordinates:
+    - The fox is placed at the original, standing on the X-Z plane, facing +Z direction.
+    - The camera is placed at the front-left of the fox, slightly higher, watching the fox (the eyesight drops on the fox body, a little higher than the original), keeping a horizontal view by using +Y as up direction.
+  - The scene looks like this:
+    ![camera](ch01_3_1.png)
 
 - Then, we add some lights to make this scene look more natural [TODO]
 
   - https://github.com/bevyengine/bevy/blob/main/examples/3d/load_gltf.rs
 
 - Also change background color to give us a more lively feel [TODO]
+
+- The final scene looks like this:
+  ![final](ch01_3_2.png)
