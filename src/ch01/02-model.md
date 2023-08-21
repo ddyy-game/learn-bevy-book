@@ -11,9 +11,9 @@
   - you can design your 3D model _visually_ with software like Blender
   - then you can export it to formats like glTF (or its binary version `.glb`) to use it _programmatically_ in Bevy
 - Load this model in Bevy app **`ch01/step-2-2`**
-  - in the code we add `load_scene_system` at `Startup` phase of the game
+  - in the code we add `setup` as a Bevy system at `Startup` phase of the game (in Bevy, systems are just functions)
   - scene is kind of like a container; we can put one or more models, lights and cameras together as a scene
-  - here we load a scene with an `AssetServer`, and spawn it in `load_scene_system` (systems are just functions)
+  - here we load a scene with an `AssetServer`, and spawn it in `setup`
     ```rs
     commands.spawn(SceneBundle {
         scene: asset_server.load("models/Fox.glb#Scene0"),
