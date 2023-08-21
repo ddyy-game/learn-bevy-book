@@ -267,9 +267,9 @@ opt-level = 3
 <li>
 <p>Load this model in Bevy app <strong><code>ch01/step-2-2</code></strong></p>
 <ul>
-<li>in the code we add <code>load_scene_system</code> at <code>Startup</code> phase of the game</li>
+<li>in the code we add <code>setup</code> as a Bevy system at <code>Startup</code> phase of the game (in Bevy, systems are just functions)</li>
 <li>scene is kind of like a container; we can put one or more models, lights and cameras together as a scene</li>
-<li>here we load a scene with an <code>AssetServer</code>, and spawn it in <code>load_scene_system</code> (systems are just functions)
+<li>here we load a scene with an <code>AssetServer</code>, and spawn it in <code>setup</code>
 <pre><code class="language-rs">commands.spawn(SceneBundle {
     scene: asset_server.load(&quot;models/Fox.glb#Scene0&quot;),
     ..default()
@@ -294,26 +294,55 @@ opt-level = 3
 <p><img src="ch01/./ch01_2_2.png" alt="" /></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="see-through-a-camera"><a class="header" href="#see-through-a-camera">See through a camera</a></h1>
 <ul>
-<li>We are now already seeing the 3D game world in the window, through a <em>camera</em></li>
-<li>The mechanism of a camera
+<li>
+<p>We are now already seeing the 3D game world in the window, through a <em>camera</em></p>
+</li>
+<li>
+<p>The mechanism of a camera:</p>
 <ul>
-<li>without a camera, the world is just a bunch of data describing what everything is and where they are</li>
-<li>a camera uses such information to calculate what we should see from a certain point of view</li>
-<li>specifically, given object shapes, positions, environment lightings, etc., the camera will compute colors of each pixels on the screen, as if we were seeing things directly from there; this process is called <em>rendering</em></li>
+<li>Without a camera, the world is just a bunch of data describing what everything is and where they are.</li>
+<li>A camera uses such information to calculate what we should see from a certain point of view.</li>
+<li>Specifically, given object shapes, positions, environment lightings, etc., the camera will compute colors of each pixels on the screen, as if we were seeing things directly from there; this process is called <em>rendering</em>.</li>
 </ul>
 </li>
-<li>Let's move our camera to a more comfortable position [TODO]
+<li>
+<p>Let's move our camera to a more comfortable position.</p>
 <ul>
-<li>https://bevy-cheatbook.github.io/features/coords.html</li>
-<li>https://bevy-cheatbook.github.io/features/transforms.html</li>
+<li>In game engines, we often use the term <em>transform</em> to represent the position, orientation (or rotation), and scale (or size) of an object.</li>
+<li>If we want to move our camera to a different position and orientation, we need to define the <code>Transform</code> component on creating the <code>Camera3DBundle</code>:
+<pre><code class="language-rs">commands.spawn(Camera3dBundle {
+    transform: Transform::from_xyz(20.0, 10.0, 30.0)
+        .looking_at(Vec3::new(0.0, 5.0, 0.0), Vec3::Y),
+    ..default()
+});
+</code></pre>
+</li>
+<li>Notice how we use <code>from_xyz</code> to construct a <code>Transform</code> from that position, and then call <code>looking_at</code> on it to define rotation. Also, this fox is too big, so we scale it down a little bit, also with <code>Transform</code>.</li>
 </ul>
 </li>
-<li>Then, we add some lights to make this scene look more natural [TODO]
+<li>
+<p>To understand what these numbers represent, we need to understand the coordinate system of the Bevy game world.</p>
+<ul>
+<li>This diagram from the <a href="https://bevy-cheatbook.github.io/features/coords.html">Unofficial Bevy Cheat Book</a> says everything about position. We use <code>from_xyz</code> to define the position of an object (or a camera) in a right-handed Y-up coordinate system.
+<img src="https://bevy-cheatbook.github.io/img/handedness.png" alt="coordinates" /></li>
+<li>The method <code>looking_at</code> is a convenient way of defining a camera rotation. It takes two arguments:
+<ul>
+<li>The first argument <code>target</code>, is the position that you want your camera to point at (hence you may not want to set it to the same position with the camera itself).</li>
+<li>The second argument <code>up</code>, is used to define the up direction of the camera. Most of the time we want a horizontal view of the world, so we set the up direction to <code>Vec3::Y</code>, i.e. the <em>up</em> direction of the same coordinate system.</li>
+<li>You may notice that the <code>up</code> direction isn't perfectly orthogonal with the target direction. This is allowed, as Bevy will calculate the internal representation of the rotation (a quaternion or <code>Quat</code> representing an orientation) based on the plane formed by the two vectors.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p>Then, we add some lights to make this scene look more natural [TODO]</p>
 <ul>
 <li>https://github.com/bevyengine/bevy/blob/main/examples/3d/load_gltf.rs</li>
 </ul>
 </li>
-<li>Also change background color to give us a more lively feel [TODO]</li>
+<li>
+<p>Also change background color to give us a more lively feel [TODO]</p>
+</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="move-objects"><a class="header" href="#move-objects">Move objects</a></h1>
 <ul>

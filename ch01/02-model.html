@@ -189,9 +189,9 @@
 <li>
 <p>Load this model in Bevy app <strong><code>ch01/step-2-2</code></strong></p>
 <ul>
-<li>in the code we add <code>load_scene_system</code> at <code>Startup</code> phase of the game</li>
+<li>in the code we add <code>setup</code> as a Bevy system at <code>Startup</code> phase of the game (in Bevy, systems are just functions)</li>
 <li>scene is kind of like a container; we can put one or more models, lights and cameras together as a scene</li>
-<li>here we load a scene with an <code>AssetServer</code>, and spawn it in <code>load_scene_system</code> (systems are just functions)
+<li>here we load a scene with an <code>AssetServer</code>, and spawn it in <code>setup</code>
 <pre><code class="language-rs">commands.spawn(SceneBundle {
     scene: asset_server.load(&quot;models/Fox.glb#Scene0&quot;),
     ..default()
