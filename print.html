@@ -308,7 +308,7 @@ opt-level = 3
 <li>
 <p>Let's move our camera to a more comfortable position.</p>
 <ul>
-<li>In game engines, we often use the term <em>transform</em> to represent the position, orientation (or rotation), and scale (or size) of an object.</li>
+<li>In game engines, we often use the term <em>transform</em> to represent the position, rotation (or orientation), and scale (or size) of an object.</li>
 <li>If we want to move our camera to a different position and orientation, we need to define the <code>Transform</code> component on creating the <code>Camera3DBundle</code>:
 <pre><code class="language-rs">commands.spawn(Camera3dBundle {
     transform: Transform::from_xyz(20.0, 10.0, 30.0)
@@ -332,6 +332,14 @@ opt-level = 3
 <li>You may notice that the <code>up</code> direction isn't perfectly orthogonal with the target direction. This is allowed, as Bevy will calculate the internal representation of the rotation (a quaternion or <code>Quat</code> representing an orientation) based on the plane formed by the two vectors.</li>
 </ul>
 </li>
+<li>As a practice, we describe this scene in terms of coordinates:
+<ul>
+<li>The fox is placed at the original, standing on the X-Z plane, facing +Z direction.</li>
+<li>The camera is placed at the front-left of the fox, slightly higher, watching the fox (the eyesight drops on the fox body, a little higher than the original), keeping a horizontal view by using +Y as up direction.</li>
+</ul>
+</li>
+<li>The scene looks like this:
+<img src="ch01/ch01_3_1.png" alt="camera" /></li>
 </ul>
 </li>
 <li>
@@ -342,6 +350,10 @@ opt-level = 3
 </li>
 <li>
 <p>Also change background color to give us a more lively feel [TODO]</p>
+</li>
+<li>
+<p>The final scene looks like this:
+<img src="ch01/ch01_3_2.png" alt="final" /></p>
 </li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="move-objects"><a class="header" href="#move-objects">Move objects</a></h1>
