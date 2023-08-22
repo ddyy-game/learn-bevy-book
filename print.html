@@ -249,27 +249,27 @@ opt-level = 3
 <div style="break-before: page; page-break-before: always;"></div><h1 id="import-a-model"><a class="header" href="#import-a-model">Import a model</a></h1>
 <ul>
 <li>
-<p>Setup a window, a main game loop, and other main features with <code>DefaultPlugins</code> <strong><code>ch01/step-2-1</code></strong></p>
+<p>Setup a window, a main game loop, and other main features with <code>DefaultPlugins</code>. <strong><code>ch01/step-2-1</code></strong></p>
 <ul>
-<li>Bevy at its core is just a skeleton for supporting the ECS paradigm</li>
-<li>a new Bevy app contains nothing; we add ECS to it to give it meanings</li>
-<li>a plugin is a pack of ECS items that work together to handle a specific aspect of the game</li>
-<li>window management, game loop, input management, logging, are all supported through some default plugins</li>
+<li>Bevy at its core is just a skeleton for supporting the ECS paradigm.</li>
+<li>A new Bevy app contains nothing; we add ECS to it to give it meanings.</li>
+<li>A plugin is a pack of ECS items that work together to handle a specific aspect of the game.</li>
+<li>Window management, game loop, input management, logging, are all supported through some default plugins.</li>
 </ul>
 </li>
 <li>
-<p><a href="https://github.com/bevyengine/bevy/raw/main/assets/models/animated/Fox.glb">Download</a> a model to <code>assets/models/Fox.glb</code></p>
+<p><a href="https://github.com/bevyengine/bevy/raw/main/assets/models/animated/Fox.glb">Download</a> a model to <code>assets/models/Fox.glb</code>.</p>
 <ul>
-<li>you can design your 3D model <em>visually</em> with software like Blender</li>
-<li>then you can export it to formats like glTF (or its binary version <code>.glb</code>) to use it <em>programmatically</em> in Bevy</li>
+<li>You can design your 3D model <em>visually</em> with software like Blender.</li>
+<li>Then you can export it to formats like glTF (or its binary version <code>.glb</code>) to use it <em>programmatically</em> in Bevy.</li>
 </ul>
 </li>
 <li>
 <p>Load this model in Bevy app <strong><code>ch01/step-2-2</code></strong></p>
 <ul>
-<li>in the code we add <code>setup</code> as a Bevy system at <code>Startup</code> phase of the game (in Bevy, systems are just functions)</li>
-<li>scene is kind of like a container; we can put one or more models, lights and cameras together as a scene</li>
-<li>here we load a scene with an <code>AssetServer</code>, and spawn it in <code>setup</code>
+<li>In the code we add <code>setup</code> as a Bevy system at <code>Startup</code> phase of the game (in Bevy, systems are just functions).</li>
+<li>Scene is kind of like a container: we can put one or more models, lights and cameras in it. It can be exported by 3D modeling software, and loaded by Bevy.</li>
+<li>Here we load a scene with an <code>AssetServer</code>, and spawn it in <code>setup</code>:
 <pre><code class="language-rs">commands.spawn(SceneBundle {
     scene: asset_server.load(&quot;models/Fox.glb#Scene0&quot;),
     ..default()
@@ -292,21 +292,41 @@ opt-level = 3
 </li>
 </ul>
 <p><img src="ch01/./ch01_2_2.png" alt="" /></p>
+<blockquote>
+<p>Note about the <code>setup</code> system:</p>
+<ul>
+<li>In Bevy, we define normal Rust functions to represent all kinds of behaviors in the game world. In terms of ECS, these functions are often called systems.</li>
+<li>We mainly have two concerns about systems:
+<ul>
+<li>What are they supposed to do?</li>
+<li>When are they executed?</li>
+</ul>
+</li>
+<li>Simply put, a system takes something in a game world, and do something with them.
+<ul>
+<li>In our <code>setup</code> system (the name is arbitrary), we take access to the asset manager, and load an external model from the asset folder. Then, with mutable access to <code>Commands</code>, we generate (spawn) the loaded model and a camera in the game world.</li>
+<li>The access to what we need in Bevy (e.g. all components of a certain type, some global resources), is acquired through the typing of the function parameter. We will see a lot more examples later.</li>
+</ul>
+</li>
+<li>When you register your function as a system using <code>add_systems</code>, you are also describing when to run this system. Typical choices are <code>Startup</code> (run once at start up) and <code>Update</code> (run one time each frame).</li>
+</ul>
+</blockquote>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="see-through-a-camera"><a class="header" href="#see-through-a-camera">See through a camera</a></h1>
 <ul>
 <li>
-<p>We are now already seeing the 3D game world in the window, through a <em>camera</em></p>
+<p>We are now already seeing the 3D game world in the window, through a <em>camera</em>.</p>
 </li>
 <li>
 <p>The mechanism of a camera:</p>
 <ul>
-<li>Without a camera, the world is just a bunch of data describing what everything is and where they are.</li>
-<li>A camera uses such information to calculate what we should see from a certain point of view.</li>
-<li>Specifically, given object shapes, positions, environment lightings, etc., the camera will compute colors of each pixels on the screen, as if we were seeing things directly from there; this process is called <em>rendering</em>.</li>
+<li>Without a camera, the game world is just a bunch of data describing what everything is and where they are.</li>
+<li>A camera uses such information to compute what we should see from a certain point of view, as if we put a real camera in there.</li>
+<li>Specifically, given all the information of object shapes, positions, environment lightings, etc., the camera will compute colors of each pixels on the screen, as if we were seeing things directly from there.</li>
+<li>This process is called <em>rendering</em>, which is one of the most important concept of game engine.</li>
 </ul>
 </li>
 <li>
-<p>Let's move our camera to a more comfortable position.</p>
+<p>The default position of the camera is now pointing at the legs of the fox. Let's first move our camera to a more comfortable position.</p>
 <ul>
 <li>In game engines, we often use the term <em>transform</em> to represent the position, rotation (or orientation), and scale (or size) of an object.</li>
 <li>If we want to move our camera to a different position and orientation, we need to define the <code>Transform</code> component on creating the <code>Camera3DBundle</code>:
@@ -327,15 +347,15 @@ opt-level = 3
 <img src="https://bevy-cheatbook.github.io/img/handedness.png" alt="coordinates" /></li>
 <li>The method <code>looking_at</code> is a convenient way of defining a camera rotation. It takes two arguments:
 <ul>
-<li>The first argument <code>target</code>, is the position that you want your camera to point at (hence you may not want to set it to the same position with the camera itself).</li>
-<li>The second argument <code>up</code>, is used to define the up direction of the camera. Most of the time we want a horizontal view of the world, so we set the up direction to <code>Vec3::Y</code>, i.e. the <em>up</em> direction of the same coordinate system.</li>
+<li>The first argument <code>target</code>, is the 3D coordinates of the position that you want your camera to point at.</li>
+<li>The second argument <code>up</code>, is used to define the up direction of the camera. Most of the time we want a horizontal view of the world, so we set the up direction to <code>Vec3::Y</code>, i.e. the default <em>up</em> direction of the coordinate system.</li>
 <li>You may notice that the <code>up</code> direction isn't perfectly orthogonal with the target direction. This is allowed, as Bevy will calculate the internal representation of the rotation (a quaternion or <code>Quat</code> representing an orientation) based on the plane formed by the two vectors.</li>
 </ul>
 </li>
-<li>As a practice, we describe this scene in terms of coordinates:
+<li>As a practice, let's describe this scene in terms of coordinates:
 <ul>
 <li>The fox is placed at the original, standing on the X-Z plane, facing +Z direction.</li>
-<li>The camera is placed at the front-left of the fox, slightly higher, watching the fox (the eyesight drops on the fox body, a little higher than the original), keeping a horizontal view by using +Y as up direction.</li>
+<li>The camera is placed at the front-left of the fox, slightly higher, watching the fox (the eyesight drops on the body of the fox, a little higher than the origin), keeping a horizontal view by using +Y as up direction.</li>
 </ul>
 </li>
 <li>The scene looks like this:
@@ -343,13 +363,29 @@ opt-level = 3
 </ul>
 </li>
 <li>
-<p>Then, we add some lights to make this scene look more natural [TODO]</p>
+<p>The fox still looks very dark. This is because there is no light in this scene. To make this scene look more natural and vivid, we add a directional light to it.</p>
 <ul>
-<li>https://github.com/bevyengine/bevy/blob/main/examples/3d/load_gltf.rs</li>
+<li>Think of directional light as sunlight. It all comes from a single direction.</li>
+<li>Here in <code>setup</code>, we add a default directional light (still through <code>commands.spawn</code>). The default light points at -Z direction, lightening the front side of the fox.</li>
 </ul>
 </li>
 <li>
-<p>Also change background color to give us a more lively feel [TODO]</p>
+<p>We can also apply some global settings to give this scene a more lively feel:</p>
+<ul>
+<li>Global settings are often defined as resources, as only one instance of a resource is allowed in the game world.</li>
+<li>We first set background color to green, to give us a feeling of grass. This is done by inserting <code>ClearColor</code> resource.</li>
+<li>We also set up an ambient light to soften the picture, by inserting the <code>AmbientLight</code> resource.</li>
+</ul>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>App::new()
+    .insert_resource(ClearColor(Color::rgb(0.4, 0.7, 0.4)))
+    .insert_resource(AmbientLight {
+        color: Color::WHITE,
+        brightness: 0.2,
+    })
+    // ...
+<span class="boring">}</span></code></pre></pre>
 </li>
 <li>
 <p>The final scene looks like this:

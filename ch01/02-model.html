@@ -171,27 +171,27 @@
                         <h1 id="import-a-model"><a class="header" href="#import-a-model">Import a model</a></h1>
 <ul>
 <li>
-<p>Setup a window, a main game loop, and other main features with <code>DefaultPlugins</code> <strong><code>ch01/step-2-1</code></strong></p>
+<p>Setup a window, a main game loop, and other main features with <code>DefaultPlugins</code>. <strong><code>ch01/step-2-1</code></strong></p>
 <ul>
-<li>Bevy at its core is just a skeleton for supporting the ECS paradigm</li>
-<li>a new Bevy app contains nothing; we add ECS to it to give it meanings</li>
-<li>a plugin is a pack of ECS items that work together to handle a specific aspect of the game</li>
-<li>window management, game loop, input management, logging, are all supported through some default plugins</li>
+<li>Bevy at its core is just a skeleton for supporting the ECS paradigm.</li>
+<li>A new Bevy app contains nothing; we add ECS to it to give it meanings.</li>
+<li>A plugin is a pack of ECS items that work together to handle a specific aspect of the game.</li>
+<li>Window management, game loop, input management, logging, are all supported through some default plugins.</li>
 </ul>
 </li>
 <li>
-<p><a href="https://github.com/bevyengine/bevy/raw/main/assets/models/animated/Fox.glb">Download</a> a model to <code>assets/models/Fox.glb</code></p>
+<p><a href="https://github.com/bevyengine/bevy/raw/main/assets/models/animated/Fox.glb">Download</a> a model to <code>assets/models/Fox.glb</code>.</p>
 <ul>
-<li>you can design your 3D model <em>visually</em> with software like Blender</li>
-<li>then you can export it to formats like glTF (or its binary version <code>.glb</code>) to use it <em>programmatically</em> in Bevy</li>
+<li>You can design your 3D model <em>visually</em> with software like Blender.</li>
+<li>Then you can export it to formats like glTF (or its binary version <code>.glb</code>) to use it <em>programmatically</em> in Bevy.</li>
 </ul>
 </li>
 <li>
 <p>Load this model in Bevy app <strong><code>ch01/step-2-2</code></strong></p>
 <ul>
-<li>in the code we add <code>setup</code> as a Bevy system at <code>Startup</code> phase of the game (in Bevy, systems are just functions)</li>
-<li>scene is kind of like a container; we can put one or more models, lights and cameras together as a scene</li>
-<li>here we load a scene with an <code>AssetServer</code>, and spawn it in <code>setup</code>
+<li>In the code we add <code>setup</code> as a Bevy system at <code>Startup</code> phase of the game (in Bevy, systems are just functions).</li>
+<li>Scene is kind of like a container: we can put one or more models, lights and cameras in it. It can be exported by 3D modeling software, and loaded by Bevy.</li>
+<li>Here we load a scene with an <code>AssetServer</code>, and spawn it in <code>setup</code>:
 <pre><code class="language-rs">commands.spawn(SceneBundle {
     scene: asset_server.load(&quot;models/Fox.glb#Scene0&quot;),
     ..default()
@@ -214,6 +214,25 @@
 </li>
 </ul>
 <p><img src="./ch01_2_2.png" alt="" /></p>
+<blockquote>
+<p>Note about the <code>setup</code> system:</p>
+<ul>
+<li>In Bevy, we define normal Rust functions to represent all kinds of behaviors in the game world. In terms of ECS, these functions are often called systems.</li>
+<li>We mainly have two concerns about systems:
+<ul>
+<li>What are they supposed to do?</li>
+<li>When are they executed?</li>
+</ul>
+</li>
+<li>Simply put, a system takes something in a game world, and do something with them.
+<ul>
+<li>In our <code>setup</code> system (the name is arbitrary), we take access to the asset manager, and load an external model from the asset folder. Then, with mutable access to <code>Commands</code>, we generate (spawn) the loaded model and a camera in the game world.</li>
+<li>The access to what we need in Bevy (e.g. all components of a certain type, some global resources), is acquired through the typing of the function parameter. We will see a lot more examples later.</li>
+</ul>
+</li>
+<li>When you register your function as a system using <code>add_systems</code>, you are also describing when to run this system. Typical choices are <code>Startup</code> (run once at start up) and <code>Update</code> (run one time each frame).</li>
+</ul>
+</blockquote>
 
                     </main>
 
