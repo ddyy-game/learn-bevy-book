@@ -17,6 +17,7 @@
   - [Logging]()
   - [Debugging]()
 - [World]()
+  - [Data representation]()
   - [Scene]()
   - [Coordinates and transform]()
   - [Spawn and discard]()

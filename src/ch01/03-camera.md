@@ -1,4 +1,4 @@
-# See through a camera
+# See through a camera `ch01/step-3`
 
 - We are now already seeing the 3D game world in the window, through a _camera_.
 
